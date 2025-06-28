@@ -1072,7 +1072,7 @@ fn depTokenizer(input: []const u8, expect: []const u8) !void {
         return;
     }
 
-    const out = std.fs.File.stderr().writer();
+    const out = std.fs.File.stderr().deprecatedWriter();
 
     try out.writeAll("\n");
     try printSection(out, "<<<< input", input);
@@ -1179,13 +1179,13 @@ fn hexDump16(out: anytype, offset: usize, bytes: []const u8) !void {
 
 fn printDecValue(out: anytype, value: u64, width: u8) !void {
     var buffer: [20]u8 = undefined;
-    const len = std.fmt.formatIntBuf(buffer[0..], value, 10, .lower, .{ .width = width, .fill = '0' });
+    const len = std.fmt.printInt(buffer[0..], value, 10, .lower, .{ .width = width, .fill = '0' });
     try out.writeAll(buffer[0..len]);
 }
 
 fn printHexValue(out: anytype, value: u64, width: u8) !void {
     var buffer: [16]u8 = undefined;
-    const len = std.fmt.formatIntBuf(buffer[0..], value, 16, .lower, .{ .width = width, .fill = '0' });
+    const len = std.fmt.printInt(buffer[0..], value, 16, .lower, .{ .width = width, .fill = '0' });
     try out.writeAll(buffer[0..len]);
 }
 
